@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Earthquake Data</h1>
+    </header>
+
+    <main>
+        <table id="earthquakeTable">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Location</th>
+                    <th>Magnitude</th>  
+                    <th> Depth</th>
+                    <th> Longitude</th>
+                    <th> Latitude</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Add earthquake data rows dynamically using JavaScript -->
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        &copy; 2023 Earthquake Watch. All rights reserved.
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const earthquakeTable = document.getElementById("earthquakeTable");
+
+        // Fetch earthquake data from the USGS API
+        fetch("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2023-01-01&minmagnitude=5.0")
+            .then(response => response.json())
+            .then(data => {
+                // Process the earthquake data and populate the table
+                populateTable(data.features);
+            })
+            .catch(error => console.error("Error fetching earthquake data:", error));
+
+        function populateTable(earthquakes) {
+            const tbody = earthquakeTable.querySelector("tbody");
+
+            earthquakes.forEach(earthquake => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${new Date(earthquake.properties.time).toLocaleString()}</td>
+                    <td>${earthquake.properties.place}</td>
+                    <td>${earthquake.properties.mag}</td>
+                    <td>${earthquake.geometry.coordinates[2]}</td>
+                    <td>${earthquake.geometry.coordinates[0]}</td>
+                    <td>${earthquake.geometry.coordinates[1]}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+    });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+

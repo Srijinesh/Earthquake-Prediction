@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Map</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        select, button {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            background-color: #0056b3;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004080;
+        }
+
+        #map {
+            height: 500px;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            display: block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-top: 2px solid #0056b3;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Earthquake Map</h1>
+    </header>
+
+    <main>
+        <form action="/generate_map" method="post">
+            <label for="lower_magnitude">Lower Magnitude:</label>
+            <select id="lower_magnitude" name="lower_magnitude" required>
+                {% for mag in magnitudes %}
+                    <option value="{{ mag }}">{{ mag }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="upper_magnitude">Upper Magnitude:</label>
+            <select id="upper_magnitude" name="upper_magnitude" required>
+                {% for mag in magnitudes %}
+                    <option value="{{ mag }}">{{ mag }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="time_range">Time Range:</label>
+            <select id="time_range" name="time_range" required>
+                {% for time_option in time_options %}
+                    <option value="{{ time_option }}">{{ time_option }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Generate Map</button>
+        </form>
+
+        <p>{{ message }}</p>
+        <div id="map">{{ map | safe }}</div>
+
+        <nav>
+            <ul>
+                <li><a href="/future_earthquakes">Future Earthquakes</a></li>
+                <li><a href="/latest_earthquakes">Latest Earthquakes</a></li>
+                <li><a href="/time_series">Time Series</a></li>
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        &copy; 2023 Earthquake Watch. All rights reserved.
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</body>
+</html>
+

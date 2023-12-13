@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Time Series</title>
+    <!-- Add necessary libraries for time series graph (e.g., Chart.js) -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        select, button {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            background-color: #0056b3;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004080;
+        }
+
+        #time_series_graph {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Earthquake Time Series</h1>
+    </header>
+
+    <main>
+        <form action="/time_series" method="post">
+            <label for="time_range">Time Range:</label>
+            <select id="time_range" name="time_range" required>
+                <option value="30">1 month</option>
+                <option value="60">2 months</option>
+                <option value="90">3 months</option>
+                <option value="180">6 months</option>
+                <option value="365">1 year</option>
+                <option value="730">2 years</option>
+                <option value="1095">3 years</option>
+                <option value="1825">5 years</option>
+                <option value="3650">10 years</option>
+                <option value="5475">15 years</option>
+                <option value="7300">20 years</option>
+                <option value="18250">50 years</option>
+            </select>
+
+            <button type="submit">Generate Time Series</button>
+        </form>
+        
+        {% if encoded_image %}
+            <div id="time_series_graph">
+                <img src="data:image/png;base64,{{ encoded_image }}" alt="Time Series Graph">
+            </div>
+        {% else %}
+            <p>No data available.</p>
+        {% endif %}
+    </main>
+</body>
+</html>
+
