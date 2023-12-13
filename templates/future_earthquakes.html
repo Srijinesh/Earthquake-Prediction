@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Earthquakes Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        input, button {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            background-color: #0056b3;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004080;
+        }
+
+        #map {
+            height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Future Earthquakes Map</h1>
+    </header>
+
+    <main>
+        <form action="/generate_future_earthquakes_map" method="post">
+            <label for="days_ahead">Number of Days Ahead:</label>
+            <input type="number" id="days_ahead" name="days_ahead" required>
+
+            <button type="submit">Generate Map</button>
+        </form>
+        
+        <p>{{ message }}</p>
+        <div id="map">{{ map | safe }}</div>
+    </main>
+</body>
+</html>
